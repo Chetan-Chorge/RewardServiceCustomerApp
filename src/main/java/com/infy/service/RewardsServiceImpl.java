@@ -45,6 +45,7 @@ public class RewardsServiceImpl implements RewardService {
 		return points;
 
 	}
+	
 
 	/**
 	 * Calculates total and monthly reward points for a customer within a date *
