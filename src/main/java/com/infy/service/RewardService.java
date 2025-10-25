@@ -8,6 +8,6 @@ import com.infy.entity.Transaction;
 import com.infy.exception.RewardprogramCustomerException;
 
 public interface RewardService {
- RewardResponseDTO calculateRewards(String customerId, LocalDate startDate, LocalDate endDate) throws RewardprogramCustomerException  ;
+ RewardResponseDTO calculateRewards(Long customerId, LocalDate startDate, LocalDate endDate) throws RewardprogramCustomerException  ;
    Transaction saveTransaction(Transaction transaction);
 }

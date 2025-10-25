@@ -1,9 +1,9 @@
 # Retail Rewards API
 
-# Project Overview
+## Project Overview
 A RESTful API to calculate customer reward points based on transaction history.
 
-# Tech Stack
+## Tech Stack
 - Java 8
 - Spring Boot
 - H2 Database
@@ -11,53 +11,144 @@ A RESTful API to calculate customer reward points based on transaction history.
 - Postman
 - JUnit & Mockito
 
-# Reward Logic
+## Reward Logic
 - 2 points for every dollar spent over $100
 - 1 point for every dollar spent between $50 and $100
 
-# API Endpoint(Postman)
+## API Endpoints
 
-# Post 
-http://localhost:2318/api/rewards/customer
+### POST: Add Customer Transaction
 
-#Get 
-Customer Id= 101
-http://localhost:2318/api/rewards/calculate/101?startDate=2023-01-01&endDate=2023-03-31
+POST http://localhost:2318/api/rewards/customer
 
-customerId =201
-http://localhost:2318/api/rewards/calculate/201?startDate=2025-07-01&endDate=2025-09-15
-
-customerId=301
-http://localhost:2318/api/rewards/calculate/301?startDate=2025-07-01&endDate=2025-09-15
-
-
-
-==>Response<== :
-json
-//VALID REQUEST
-http://localhost:2318/api/rewards/customer
-{
- "customerId": "402",
- "customerName":"Hritik Bhosale",
- "amount": 111,
- "transactionDate": "2025-06-11"
-}
- 
-
-
-
-//INVALID REQUEST
-{
- "customerId": 401,
- "startDate": "2025-10-01",
- "endDate": "2025-09-01"
-}
-
+**Valid Request:**
+`json
 
 {
- "customerId": null,
- "startDate": null,
- "endDate": null
+"customerId": "402",
+"customerName": "Hritik Bhosale",
+"amount": 111,
+"transactionDate": "2025-06-11"
 }
- ]
+
+**Valid Response:**
+''json
+
+{
+"message": "Transaction recorded successfully",
+"rewardPoints": 72
 }
+
+
+**Invalid Request Examples:**
+
+```json
+
+{
+"customerId": 401,
+"startDate": "2025-10-01",
+"endDate": "2025-09-01"
+}
+
+```json
+
+{
+"customerId": null,
+"startDate": null,
+"endDate": null
+
+}
+
+
+**Invalid Response:*
+```json
+
+{
+"error": "Invalid request parameters"
+}
+```
+
+### GET: Calculate Rewards for Customer
+
+```
+GET http://localhost:2318/api/rewards/calculate/{customerId}?startDate={startDate}&endDate={endDate}
+```
+**Examples:**
+
+- Customer ID: 102
+``
+GET http://localhost:2318/api/rewards/calculate/102?startDate=2025-07-01&endDate=2025-09-10
+
+```
+**Response:**
+
+```json
+
+{
+"customerId": 102,
+"customerName": "Chetan Chorge",
+"monthlyRewards": [
+{
+"month": "July",
+"rewardPoints": 90
+},
+
+{
+"month": "August",
+"rewardPoints": 25
+},
+{
+"month": "September",
+"rewardPoints": 250
+}
+],
+"totalRewards": 365,
+"transactions": [
+{
+"transactionDate": "2025-07-15",
+"amount": 120.0,
+"rewardPoints": 90
+},
+{
+"transactionDate": "2025-08-10",
+"amount": 75.0,
+"rewardPoints": 25
+},
+{
+
+"transactionDate": "2025-09-05",
+
+"amount": 200.0,
+
+"rewardPoints": 250
+
+}
+
+]
+
+}
+
+```
+- Customer ID: 201
+
+```
+GET http://localhost:2318/api/rewards/calculate/201?startDate=2025-07-01&endDate=2025-09-15
+
+```
+- Customer ID: 301
+
+```
+GET http://localhost:2318/api/rewards/calculate/301?startDate=2025-07-01&endDate=2025-09-15
+
+```
+
+## Response Format
+
+All responses are returned in JSON format.
+
+## Notes
+
+- Ensure the transaction date is in valid format.
+
+- The reward calculation is based on the amount spent per transaction.
+
