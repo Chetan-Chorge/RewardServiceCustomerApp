@@ -2,8 +2,10 @@ package com.infy.test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.time.LocalDate;
@@ -259,6 +261,42 @@ assertEquals("Start date must be before or equal to end date.", ex.getMessage())
        assertEquals(400, response.getStatusCodeValue());
        assertEquals("Constraint violated", response.getBody().getErrorMessage());
    }
+  
+   
+   @Test
+   void testCalculateMethodLogic() {
+   assertEquals(0, RewardsServiceImpl.calculate(45));
+   assertEquals(5, RewardsServiceImpl.calculate(55));
+   assertEquals(50, RewardsServiceImpl.calculate(100));
+   assertEquals(90, RewardsServiceImpl.calculate(120)); // 20*2 + 50
+
+   }
+
+   @Test
+   void testCalculateRewards_noTransactions_throwsException() {
+
+   Long customerId = 2L;
+
+   LocalDate startDate = LocalDate.of(2025, 1, 1);
+
+   LocalDate endDate = LocalDate.of(2025, 3, 31);
+
+   when(transactionRepository.findByCustomerIdAndTransactionDateBetween(customerId, startDate, endDate))
+
+   .thenReturn(Collections.emptyList());
+
+   RewardprogramCustomerException exception = assertThrows(RewardprogramCustomerException.class, () ->
+
+   rewardService.calculateRewards(customerId, startDate, endDate));
+   assertTrue(exception.getMessage().contains("No transactions found"));
+
+   }
+
+
+  
+
+
+
 
 
 }
