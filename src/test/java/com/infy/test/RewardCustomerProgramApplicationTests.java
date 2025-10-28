@@ -27,6 +27,7 @@ import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 
 import com.infy.controller.RewardsController;
+import com.infy.dto.CustomerTransactionDTO;
 import com.infy.dto.RewardResponseDTO;
 import com.infy.entity.Transaction;
 import com.infy.exception.RewardprogramCustomerException;
@@ -35,6 +36,7 @@ import com.infy.service.RewardsServiceImpl;
 import com.infy.utility.ErrorInfo;
 import com.infy.utility.ExceptionControllerAdvice;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 
@@ -293,11 +295,51 @@ assertEquals("Start date must be before or equal to end date.", ex.getMessage())
    }
 
 
-  
+   @Tag(name ="New1")
+   @Test
+   void testCalculateRewards_transactionExactlyAtThresholds() throws RewardprogramCustomerException {
+   Long customerId = 5L;
+   LocalDate date = LocalDate.of(2025, 2, 10);
+   Transaction tx50 = new Transaction(1L, customerId, "David", date, 50.0);
+   Transaction tx100 = new Transaction(2L, customerId, "David", date, 100.0);
+   when(transactionRepository.findByCustomerIdAndTransactionDateBetween(customerId, date, date))
+   .thenReturn(Arrays.asList(tx50, tx100));
+   RewardResponseDTO response = rewardService.calculateRewards(customerId, date, date);
+
+   assertEquals(50, response.getTotalRewards());
+
+   }
+
+   @Test
+   void testCalculateRewards_nullTransactionList_throwsException() {
+   Long customerId = 3L;
+
+   LocalDate startDate = LocalDate.of(2025, 1, 1);
+
+   LocalDate endDate = LocalDate.of(2025, 1, 31);
+
+   when(transactionRepository.findByCustomerIdAndTransactionDateBetween(customerId, startDate, endDate))
+   .thenReturn(null);
+   assertThrows(NullPointerException.class, () ->
+   rewardService.calculateRewards(customerId, startDate, endDate));
+   }
 
 
+   @Test
+   void testCustomerTransactionDTO_rewardPointsSetCorrectly() throws RewardprogramCustomerException {
+   Long customerId = 4L;
+   LocalDate date = LocalDate.of(2025, 2, 10);
 
+   Transaction tx = new Transaction(1L, customerId, "Charlie", date, 105.0);
+   when(transactionRepository.findByCustomerIdAndTransactionDateBetween(customerId, date, date))
 
+   .thenReturn(Collections.singletonList(tx));
+   RewardResponseDTO response = rewardService.calculateRewards(customerId, date, date);
+
+   CustomerTransactionDTO dto = response.getTransactions().get(0);
+   assertEquals(60, dto.getRewardPoints());
+
+   }
 
 }
  
