@@ -140,6 +140,7 @@ This API returns the customer reward based on the provided start and end date.
 ---
 
 
+
  
 
 ## 3. Reward Calculation Rules
@@ -147,11 +148,16 @@ This API returns the customer reward based on the provided start and end date.
 
  
 
+=======
+## 3. Reward Calculation Rules
+
+
 - **2 points** for every dollar spent over **$100**
 
 - **1 point** for every dollar spent between **$50 and $100**
 
 - Points are calculated **per transaction** and aggregated monthly and for the requested date range.
+<<<<<<< HEAD
 
 
  
@@ -184,6 +190,25 @@ This API returns the customer reward based on the provided start and end date.
 
  
 
+=======
+
+---
+
+## 4. Setup Instructions
+
+1. **Clone the repository**
+
+   ```bash
+
+   git clone https://github.com/your-username/retail-rewards-api.git
+
+   cd retail-rewards-api
+
+   ```
+
+2. **Ensure Java 8+ and Maven are installed**
+
+
 3. **Build the project**
 
    ```bash
@@ -191,9 +216,6 @@ This API returns the customer reward based on the provided start and end date.
    mvn clean install
 
    ```
-
-
- 
 
 4. **Run the application**
 
@@ -215,4 +237,12 @@ This API returns the customer reward based on the provided start and end date.
    ```
 
 
+
+5. **API Base URL**
+
+   ```
+   http://localhost:2318/api/rewards
+
+   ```
  
+
