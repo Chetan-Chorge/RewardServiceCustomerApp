@@ -3,6 +3,10 @@
 
  
 
+# Retail Rewards API
+
+This project provides an API to calculate reward points for customers based on transaction amounts within a given date range.
+
 ## 1. Sample Customer Rewards Data
 
 
@@ -134,9 +138,18 @@ This API returns the customer reward based on the provided start and end date.
 
 ```
 
+
+ 
+
 ---
 
+
+ 
+
 ## 3. Reward Calculation Rules
+
+
+ 
 
 - **2 points** for every dollar spent over **$100**
 
@@ -144,9 +157,18 @@ This API returns the customer reward based on the provided start and end date.
 
 - Points are calculated **per transaction** and aggregated monthly and for the requested date range.
 
+
+ 
+
 ---
 
+
+ 
+
 ## 4. Setup Instructions
+
+
+ 
 
 1. **Clone the repository**
 
@@ -158,7 +180,13 @@ This API returns the customer reward based on the provided start and end date.
 
    ```
 
+
+ 
+
 2. **Ensure Java 8+ and Maven are installed**
+
+
+ 
 
 3. **Build the project**
 
@@ -167,6 +195,10 @@ This API returns the customer reward based on the provided start and end date.
    mvn clean install
 
    ```
+
+
+ 
+
 4. **Run the application**
 
    ```bash
@@ -175,10 +207,16 @@ This API returns the customer reward based on the provided start and end date.
 
    ```
 
+
+ 
+
 5. **API Base URL**
 
    ```
+
    http://localhost:2318/api/rewards
 
    ```
+
+
  
